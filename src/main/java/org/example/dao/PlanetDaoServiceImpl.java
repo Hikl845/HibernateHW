@@ -1,16 +1,20 @@
-package org.example;
+package org.example.dao;
+
+import org.example.entity.Planet;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import  org.hibernate.Transaction;
+import org.hibernate.Transaction;
 
-public class PlanetCrudService {
+public class PlanetDaoServiceImpl implements PlanetDaoService {
+
     private final SessionFactory sessionFactory;
 
-    public PlanetCrudService(SessionFactory sessionFactory){
+    public PlanetDaoServiceImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
-    public void create(String id, String name){
+    @Override
+    public void create(String id, String name) {
         Session session = sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
 
@@ -21,14 +25,16 @@ public class PlanetCrudService {
         session.close();
     }
 
-    public Planet getById(String id){
+    @Override
+    public Planet getById(String id) {
         Session session = sessionFactory.openSession();
         Planet planet = session.get(Planet.class, id);
         session.close();
         return planet;
     }
 
-    public void update(String id, String name){
+    @Override
+    public void update(String id, String name) {
         Session session = sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
 
@@ -39,13 +45,14 @@ public class PlanetCrudService {
         session.close();
     }
 
-    public void delete(String id){
+    @Override
+    public void delete(String id) {
         Session session = sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
 
         Planet planet = session.get(Planet.class, id);
-        if(planet != null) {
-            session.remove(session);
+        if (planet != null) {
+            session.remove(planet);
         }
 
         tx.commit();

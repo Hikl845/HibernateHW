@@ -1,0 +1,39 @@
+package org.example.service;
+
+import org.example.dao.ClientDaoService;
+import org.example.entity.Client;
+
+public class ClientServiceImpl implements ClientService {
+
+    private final ClientDaoService dao;
+
+    public ClientServiceImpl(ClientDaoService dao) {
+        this.dao = dao;
+    }
+
+    @Override
+    public Long create(String name) {
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException("Invalid client name");
+        }
+        return dao.create(name);
+    }
+
+    @Override
+    public Client getById(Long id) {
+        return dao.getById(id);
+    }
+
+    @Override
+    public void update(Long id, String name) {
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException("Invalid client name");
+        }
+        dao.update(id, name);
+    }
+
+    @Override
+    public void delete(Long id) {
+        dao.delete(id);
+    }
+}

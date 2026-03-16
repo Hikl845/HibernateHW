@@ -1,17 +1,19 @@
 package org.example;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import  org.hibernate.Transaction;
+import org.hibernate.Transaction;
 
-public class ClientCrudService {
+public class ClientDaoServiceImpl implements ClientDaoService {
 
-    private SessionFactory sessionFactory;
+    private final SessionFactory sessionFactory;
 
-    public ClientCrudService(SessionFactory sessionFactory){
+    public ClientDaoServiceImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
-    public Long create(String name){
+    @Override
+    public Long create(String name) {
         Session session = sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
 
@@ -24,14 +26,16 @@ public class ClientCrudService {
         return client.getId();
     }
 
-    public Client getById(Long id){
+    @Override
+    public Client getById(Long id) {
         Session session = sessionFactory.openSession();
         Client client = session.get(Client.class, id);
         session.close();
         return client;
     }
 
-    public void update(Long id, String name){
+    @Override
+    public void update(Long id, String name) {
         Session session = sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
 
@@ -42,11 +46,12 @@ public class ClientCrudService {
         session.close();
     }
 
-    public void delete(Long id){
+    @Override
+    public void delete(Long id) {
         Session session = sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
 
-        Client client =  session.get(Client.class, id);
+        Client client = session.get(Client.class, id);
         session.remove(client);
 
         tx.commit();
